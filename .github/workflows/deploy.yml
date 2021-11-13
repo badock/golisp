@@ -1,0 +1,42 @@
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  github-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install -g @angular/cli
+        working-directory: webapp
+      - run: npm install .
+        working-directory: webapp
+      - run: ng build
+        working-directory: webapp
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+          BRANCH: gh-pages
+          FOLDER: webapp/dist/webapp
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PRIVATE_SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_SERVER_ADDRESS }} >> ~/.ssh/known_hosts
+      - uses: actions/checkout@master
+      - uses: actions/setup-go@v2
+      - run: go build -o plop src/server.go
+      - run: ls src
+      - run: ls
+      - name: Deploy with rsync
+        run: rsync -avz ./plop root@${{ secrets.SSH_SERVER_ADDRESS }}:/root/golisp/src/plop
+      - name: Restart golisp api service
+        run: ssh root@${{ secrets.SSH_SERVER_ADDRESS }} supervisorctl restart golisp_api
