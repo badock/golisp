@@ -138,7 +138,8 @@ class AppComponent {
         this.runCode = () => {
             console.log("I will run the following expression:");
             console.log(this.lispCode);
-            this.lispService.evalLispCode(this.lispCode).subscribe((result) => {
+            let lispCodeWithoutNewLines = this.lispCode.replace("\n", "");
+            this.lispService.evalLispCode(lispCodeWithoutNewLines).subscribe((result) => {
                 // @ts-ignore
                 this.resultExpression = `${result.result}`;
             });
