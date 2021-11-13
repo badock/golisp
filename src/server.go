@@ -45,7 +45,11 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	fmt.Fprintf(w, "{\"status:\": %d, \"result\": %s, \"msg\": \"%s\"}", status, requestResult, message)
+	//Allow CORS here By * or specific origin
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	fmt.Fprintf(w, "{\"status:\": %d, \"result\": \"%s\", \"msg\": \"%s\"}", status, requestResult, message)
 }
 
 func main() {
