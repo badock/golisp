@@ -88,7 +88,7 @@ class LispService {
         const formData = new FormData();
         formData.append('expression', lispCode);
         let url = "http://localhost:8080/lispgo";
-        url = "https://api.golisp.jonathanpastor.fr/lispgo";
+        // url = "https://api.golisp.jonathanpastor.fr/lispgo";
         return this.http.post(url, formData, {});
     }
 }
@@ -138,7 +138,7 @@ class AppComponent {
         this.runCode = () => {
             console.log("I will run the following expression:");
             console.log(this.lispCode);
-            let lispCodeWithoutNewLines = this.lispCode.replace("\n", "");
+            let lispCodeWithoutNewLines = this.lispCode.split("\n").join("");
             this.lispService.evalLispCode(lispCodeWithoutNewLines).subscribe((result) => {
                 // @ts-ignore
                 this.resultExpression = `${result.result}`;
