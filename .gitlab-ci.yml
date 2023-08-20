@@ -8,24 +8,25 @@ build:go_api:
     - apt update
     - apt install -y golang
     - cd src
+    - go build server.go
     - sleep 3600
  artifacts:
     paths:
-      - /builds/badock/homelab-group/golisp/src/golang_bin
+      - /builds/homelab-group/golisp/src/server
     expire_in: 1 days
 
 build:angular_frontend:
   stage: build
   script:
     - apt update
-    - apt install -y python3 python3-pip
+    - apt install -y nodejs npm
     - npm install -g @angular/cli@12
     - cd webapp
     - sleep 3600
     - ng build --prod
  artifacts:
     paths:
-      - /builds/badock/homelab-group/golisp/webapp/dist
+      - /builds/homelab-group/golisp/webapp/dist
     expire_in: 1 days
 
 deploy:go_api:
