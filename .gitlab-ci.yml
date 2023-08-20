@@ -9,7 +9,6 @@ build:go_api:
     - apt install -y golang
     - cd src
     - go build server.go
-    - sleep 3600
   artifacts:
     paths:
       - /builds/homelab-group/golisp/src/server
@@ -22,7 +21,6 @@ build:angular_frontend:
     - apt install -y nodejs npm
     - npm install -g @angular/cli@12
     - cd webapp
-    - sleep 3600
     - ng build --prod
   artifacts:
     paths:
