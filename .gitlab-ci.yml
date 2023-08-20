@@ -1,6 +1,7 @@
 stages:
   - build
   - deploy
+  - pages
 
 build:go_api:
   stage: build
@@ -31,13 +32,24 @@ build:angular_frontend:
 deploy:go_api:
   stage: deploy
   script:
-    - apt update
-    - sleep 3600
-    - echo "plop"
+    - ssh s2.jonathanpastor.fr 'supervisorctl stop golisp_api'
+    - scp /builds/homelab-group/golisp/src/server s2.jonathanpastor.fr:/root/golisp/src/plop
+    - ssh s2.jonathanpastor.fr 'supervisorctl start golisp_api'
 
-deploy:angular_frontend:
+pages:
   stage: deploy
   script:
-    - apt update
-    - sleep 3600
-    - echo "plop"
+  - apt update
+  - apt install -y rsync
+
+  - mkdir -p public
+  - rsync -avz --progress /builds/homelab-group/golisp/webapp/dist public/
+
+  environment:
+    name: docs
+    # Ask gitlab pages to deploy the public folder in specific URL that contains the branch name
+    url: https://badock.gitlab.io/homelab-group/golisp
+  artifacts:
+    paths:
+    - public
+    expire_in: 1 week
