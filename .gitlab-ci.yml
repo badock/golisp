@@ -19,10 +19,10 @@ build:angular_frontend:
   script:
     - apt update
     - apt install -y nodejs npm
+    - sleep 3600
     - npm install -g @angular/cli@12
     - cd webapp
     - ng build --prod
-    - sleep 3600
   artifacts:
     paths:
       - /builds/homelab-group/golisp/webapp/dist
