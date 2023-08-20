@@ -19,9 +19,9 @@ build:angular_frontend:
   script:
     - apt update
     - apt install -y nodejs npm
-    - sleep 3600
-    - npm install -g @angular/cli@12
+    - npm install -g @angular/cli@11
     - cd webapp
+    - npm install .
     - ng build --prod
   artifacts:
     paths:
@@ -32,10 +32,12 @@ deploy:go_api:
   stage: deploy
   script:
     - apt update
+    - sleep 3600
     - echo "plop"
 
 deploy:angular_frontend:
   stage: deploy
   script:
     - apt update
+    - sleep 3600
     - echo "plop"
