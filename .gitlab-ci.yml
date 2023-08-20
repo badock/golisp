@@ -10,7 +10,7 @@ build:go_api:
     - cd src
     - go build server.go
     - sleep 3600
- artifacts:
+  artifacts:
     paths:
       - /builds/homelab-group/golisp/src/server
     expire_in: 1 days
@@ -24,7 +24,7 @@ build:angular_frontend:
     - cd webapp
     - sleep 3600
     - ng build --prod
- artifacts:
+  artifacts:
     paths:
       - /builds/homelab-group/golisp/webapp/dist
     expire_in: 1 days
