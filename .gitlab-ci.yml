@@ -22,6 +22,7 @@ build:angular_frontend:
     - npm install -g @angular/cli@12
     - cd webapp
     - ng build --prod
+    - sleep 3600
   artifacts:
     paths:
       - /builds/homelab-group/golisp/webapp/dist
